@@ -71,7 +71,10 @@ func NewWASMCache(manager *Manager, ttl time.Duration, diag *Diagnostics) *WASMC
 	if manager == nil {
 		panic("cache: NewWASMCache called with nil manager")
 	}
-	if ttl <= 0 {
+	if ttl < 0 {
+		panic("cache: NewWASMCache called with negative TTL")
+	}
+	if ttl == 0 {
 		ttl = DefaultWASMCacheTTL
 	}
 	return &WASMCache{
